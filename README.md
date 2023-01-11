@@ -23,10 +23,67 @@ Mata Kuliah : Bahasa Pemograman
    * main.py berisi program utama (menu pilihan yang memanggil semua menu yang ada)
 
 
- 1.[main.py] Berisi program utama dengan menu menu = input("[(T)ambah, (I)nputNilai, (L)ihat, (C)ari, (H)apus, (U)bah, (K)eluar] : ")
+ **1.[main.py] Berisi program utama dengan menu menu = input("[(T)ambah, (I)nputNilai, (L)ihat, (C)ari, (H)apus, (U)bah, (K)eluar] : ")**
  
- *~~~
- class Data_mahasiswa:
+```ruby
+ from view import input_nilai, view_nilai
+from model import daftar_nilai
+
+data = daftar_nilai.Data_mahasiswa()
+
+print("="*20)
+print("|PROGRAM INPUT DATA|")
+print("="*20)
+
+while True: 
+    print()
+    menu = input("[(T)ambah, (I)nputNilai, (L)ihat, (C)ari, (H)apus, (U)bah, (K)eluar] : ")
+    print("~"*78)
+    print()
+
+    if menu.lower() == 't':
+        data.tambah()
+
+
+    elif menu.lower() == "i":
+        input_nilai.nilai()
+
+
+    elif menu.lower() == 'l':
+        if data.nama:
+            view_nilai.lihat()
+        else:
+            print("BELUM ADA DATA!, pilih [T/t] untuk menambah data")  
+
+    elif menu.lower() == 'c':
+        if data.nama:
+            data.cari()
+        else:
+            print("BELUM ADA DATA!, pilih [T/t] untuk menambah data") 
+            
+
+    elif menu.lower() == "h":
+        data.hapus(data.nama)
+
+
+    elif menu.lower() == "u":
+        data.ubah(data.nama) 
+
+    elif menu.lower() == "k":
+        print("Program selesai, Terima Kasih :) ")
+        break
+
+    else:
+        print("\n INPUT {} TIDAK ADA!, Silakan pilih [T/L/I/H/U/K] untuk menjalankan program!".format(menu))
+        
+```
+
+**2. daftar_nilai.py**
+
+Di dalam file daftar nilai ini terdapat sourcecode input("[(T)ambah, (C)ari, (H)apus, (U)bah] ")
+
+```ruby
+class Data_mahasiswa:
     nama = []
     nim = []
     uts = []
@@ -92,5 +149,48 @@ Mata Kuliah : Bahasa Pemograman
             print(f"Nilai TUGAS   : {self.tugas[index]}")
         else:
             print("NAMA {0} TIDAK ADA!".format(nama))
+ ```
+                      
+            
+ **3.view_nilai.py berisi sourcode yg berfungsi menampilkan seluruh data**
+ 
+ 
+```ruby
+ from model import daftar_nilai
 
+data = daftar_nilai.Data_mahasiswa()
+
+# Menampilkan seluruh data 
+def lihat():
+    for i in range(len(data.nama)):
+        print(f"\nData ke -{i+1}")
+        print(f"Nama Mahasiswa: {data.nama[i]}")
+        print(f"NIM Mahasiswa : {data.nim[i]}")
+        print(f"Nilai UTS     : {data.uts[i]}")
+        print(f"Nilai UAS     : {data.uas[i]}")
+        print(f"Nilai TUGAS   : {data.tugas[i]}")
+```
+
+
+**4. input_nilai.py berisi code yg berfungsi untuk menginput data yaitu nilai**
+
+```ruby
+from model import daftar_nilai
+
+data = daftar_nilai.Data_mahasiswa()
+
+def nilai():
+        print("Input Nilai")
+        print("="*15)
+        input_nama = input("Masukan Nama   : ")
+        if input_nama in data.nama:
+            index = data.nama.index(input_nama)
+            data.uts[index]     = int(input("Nilai UTS      : "))
+            data.uas[index]     = int(input("Nilai UAS      : "))
+            data.tugas[index]   = int(input("Nilai Tugas    : "))
+
+            print("\nData nilai berhasil di input!")
+        else:
+            print("NAMA {0} TIDAK ADA! / ANDA BELUM MENAMBAH DATA".format(input_nama))
+```            
     
